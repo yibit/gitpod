@@ -77,16 +77,6 @@ authProviders:
     settingsUrl: "https://github.com/settings/connections/applications/CLIENT_ID"
   description: ""
   icon: ""
-- id: "Public-GitLab"
-  host: "gitlab.com"
-  type: "GitLab"
-  oauth:
-    clientId: "CLIENT_ID"
-    clientSecret: "SECRET"
-    callBackUrl: "https://gitpod.io/auth/gitlab/callback"
-    settingsUrl: "https://gitlab.com/profile/applications"
-  description: ""
-  icon: ""
 branding:
   logo: /images/gitpod-ddd.svg
   homepage: https://www.gitpod.io/
