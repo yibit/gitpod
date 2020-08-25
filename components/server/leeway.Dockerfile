@@ -4,6 +4,15 @@
 
 FROM node:12.18.3-slim as builder
 
+# Using ssh-keygen for RSA keypair generation
+RUN apt-get update && apt-get install -yq \
+        gcc \
+        build-essential  \
+        make \
+        python-dev \
+        python-setuptools \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
 COPY components-server--app /installer/
 
 WORKDIR /app

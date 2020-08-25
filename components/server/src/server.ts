@@ -36,6 +36,8 @@ import { PeriodicDbDeleter } from '@gitpod/gitpod-db/lib/periodic-deleter';
 import { OneTimeSecretServer } from './one-time-secret-server';
 import { GitpodClient, GitpodServer } from '@gitpod/gitpod-protocol';
 
+const heapdump = require('heapdump');
+
 @injectable()
 export class Server<C extends GitpodClient, S extends GitpodServer> {
     static readonly EVENT_ON_START = 'start';
@@ -219,6 +221,22 @@ export class Server<C extends GitpodClient, S extends GitpodServer> {
         app.use('/workspace-download', this.workspaceDownloadService.apiRouter);
         app.use("/version", (req: express.Request, res: express.Response, next: express.NextFunction) => {
             res.send(this.env.version);
+        });
+        app.use("/heapdump", async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            try {
+                const filename = await new Promise<string>((resolve, reject) => {
+                    heapdump.writeSnapshot( '/tmp/my-process.' + Date.now() + '.snapshot', (err: any, filename: string) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(filename)
+                        }
+                    });
+                })
+                res.sendFile(filename)
+            } catch(error) {
+                res.status(500).send(error)
+            }
         });
     }
 
