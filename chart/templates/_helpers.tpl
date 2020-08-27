@@ -263,7 +263,7 @@ env:
 {{- end }}
 {{- end -}}
 
-{{- define "gitpod.builtinRegistry.name" -}}registry.{{ .Values.hostname }}{{- end -}}
+{{- define "gitpod.builtinRegistry.name" -}}{{ index .Values "docker-registry" "fullnameOverride" }}.{{ .Release.Namespace }}.svc.cluster.local{{- end -}}
 
 {{- define "gitpod.comp.version" -}}
 {{- $ := .root -}}
