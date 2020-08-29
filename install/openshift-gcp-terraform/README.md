@@ -4,3 +4,7 @@
 2. Download the pull secret from [here](https://cloud.redhat.com/openshift/install/pull-secret) and place it in a file called "pull-secret.json"
 3. Fill out the variables file
 4. Run script
+
+## Disclaimer
+
+The work in the OpenShift module is a modified version of https://github.com/ibm-cloud-architecture/terraform-openshift4-gcp
