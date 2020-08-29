@@ -1,0 +1,4 @@
+.terrafom/**
+pull-secret.json
+account.json
+*.tfvars
