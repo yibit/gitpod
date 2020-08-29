@@ -1,5 +1,5 @@
 module "openshift" {
-  source         = "git::https://github.com/JesterOrNot/terraform-openshift4-gcp.git"
+  source         = "./modules/openshift"
   gcp_project_id = var.project
   gcp_region     = var.region
   cluster_name   = var.cluster_name
