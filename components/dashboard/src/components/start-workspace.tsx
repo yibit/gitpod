@@ -107,7 +107,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
         this.startWorkspace(nextProps.workspaceId);
     }
 
-    protected startWorkspace(workspaceId: string | undefined, restart: boolean = false) {
+    protected startWorkspace(workspaceId: string | undefined, restart: boolean = false, forceDefault: boolean = false) {
         if (!workspaceId) {
             return;
         }
@@ -120,8 +120,8 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
         }
 
         const defaultErrMessage = `Error while starting workspace ${workspaceId}`;
-        this.props.service.server.startWorkspace(workspaceId)
-            .then(workspaceStartedResult => {
+        this.props.service.server.startWorkspace(workspaceId, forceDefault)
+            .then((workspaceStartedResult: { instanceID: string; workspaceURL: string; }) => {
                 if (!workspaceStartedResult) {
                     this.setErrorState(defaultErrMessage);
                 } else {
@@ -322,7 +322,7 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
 
         const startErrorRenderer = this.props.startErrorRenderer;
         if (startErrorRenderer && errorCode) {
-            const rendered = startErrorRenderer(errorCode, this.props.service, () => this.startWorkspace(this.props.workspaceId, true));
+            const rendered = startErrorRenderer(errorCode, this.props.service, () => this.startWorkspace(this.props.workspaceId, true, false));
             if (rendered) {
                 return rendered;
             }
@@ -354,6 +354,9 @@ export class StartWorkspace extends React.Component<StartWorkspaceProps, StartWo
         if (isError) {
             message = <div className="message action">
                 <Button className='button' variant='outlined' color='secondary' onClick={() => this.redirectToDashboard()}>Go to Workspaces</Button>
+                <Button className='button' variant='outlined' color='secondary' onClick={() => {
+                  this.startWorkspace(this.props.workspaceId, true, true);
+                }}>Open Default Workspace</Button>
             </div>;
         }
         if (this.state && this.state.workspaceInstance && this.state.workspaceInstance.status.phase == 'running') {
