@@ -358,7 +358,7 @@ func (m *Manager) createDefiniteWorkspacePod(startContext *startWorkspaceContext
 				pod.Spec.Containers[i].Lifecycle = &corev1.Lifecycle{
 					PreStop: &corev1.Handler{
 						Exec: &corev1.ExecAction{
-							Command: []string{"/theia/supervisor", "backup"},
+							Command: []string{"/theia/supervisor", "container", "backup"},
 						},
 					},
 				}
@@ -486,7 +486,7 @@ func (m *Manager) createWorkspaceContainer(startContext *startWorkspaceContext) 
 		ReadinessProbe: &corev1.Probe{
 			Handler: corev1.Handler{
 				HTTPGet: &corev1.HTTPGetAction{
-					Path:   "/",
+					Path:   "/api/v1/status/content/wait/wait=true",
 					Port:   intstr.FromInt((int)(startContext.TheiaSupervisorPort)),
 					Scheme: corev1.URISchemeHTTP,
 				},
