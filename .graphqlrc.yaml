@@ -1,0 +1,2 @@
+schema: '/workspace/gitpod/components/gitpod-public-api/src/graphql/schema.graphql'
+documents: '/workspace/gitpod/components/gitpod-public-api/src/graphql/*.graphql'
